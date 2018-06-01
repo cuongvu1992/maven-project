@@ -1,2 +1,2 @@
-Hello, World.......!
-<marquee>Staging</marquee>>
+Hello, World!
+====full automated version====

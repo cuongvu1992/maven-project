@@ -4,6 +4,14 @@ pipeline {
     tools{
         maven 'maven 3.3.9'
     }
+
+    parameters {
+         string(name: 'slave_machine', defaultValue: '172.31.48.41', description: 'Jenkins Slave')
+    }
+
+    triggers {
+        pollSCM('* * * * *')
+    }
     stages{
         stage('Build'){
             steps {
@@ -17,27 +25,10 @@ pipeline {
             }
         }
 
-        stage('Deploy to Staging'){
-            steps {
-                build job: 'deploy-to-staging'
-            }
-        }
-
-        stage ('Deploy to Production'){
-            steps{
-                timeout(time:5, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'
-                }
-
-                build job: 'deploy-to-prod'
-            }
-            post {
-                success {
-                    echo 'Code deployed to Production.'
-                }
-
-                failure {
-                    echo ' Deployment failed.'
+        stage('Deployments') {
+            parallel {
+                steps {
+                    sh "scp -i /home/ec2-user/cuongvv.pem **/target/*.war ec2-user@${params.slave_machine}:/var/lib/tomcat8/webapps"
                 }
             }
         }
