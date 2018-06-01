@@ -26,10 +26,8 @@ pipeline {
         }
 
         stage('Deployments') {
-            parallel {
-                steps {
-                    sh "scp -i /home/ec2-user/jenkins-user **/target/*.war jenkins-user@${params.slave_machine}:/var/lib/tomcat8/webapps"
-                }
+            steps {
+                sh "scp -i /home/ec2-user/jenkins-user **/target/*.war jenkins-user@${params.slave_machine}:/var/lib/tomcat8/webapps"
             }
         }
     }
