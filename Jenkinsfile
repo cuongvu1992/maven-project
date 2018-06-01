@@ -28,7 +28,7 @@ pipeline {
         stage('Deployments') {
             steps {
                 sh "cd /opt/apache-tomcat-8.5.31/"
-                sh "scp -i /var/lib/jenkins/jenkins-user **/target/*.war jenkins-user@${params.slave_machine}:/var/lib/tomcat8/webapps"
+                sh "scp -v -o StrictHostKeyChecking=no -i /var/lib/jenkins/jenkins-user **/target/*.war jenkins-user@${params.slave_machine}:/var/lib/tomcat8/webapps"
             }
         }
     }
