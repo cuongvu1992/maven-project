@@ -27,7 +27,7 @@ pipeline {
 
         stage('Deployments') {
             steps {
-                sh "scp -i /home/ec2-user/jenkins-user **/target/*.war jenkins-user@${params.slave_machine}:/var/lib/tomcat8/webapps"
+                sh "scp -i /var/lib/jenkins/jenkins-user **/target/*.war jenkins-user@${params.slave_machine}:/var/lib/tomcat8/webapps"
             }
         }
     }
